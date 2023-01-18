@@ -1,4 +1,5 @@
 //#include <stddef.h> // after deleting
+#include <setjmp.h>
 #include "funcattrs.h"
 
 typedef struct netdissect_options netdissect_options;

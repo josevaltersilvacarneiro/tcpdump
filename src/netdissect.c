@@ -9,6 +9,6 @@ nd_init(char *errbuf, size_t errbuf_size)
 	 * "unused argument" warnings at compile time.
 	 */
 
-	strlcpy(errbuf, "", errbuf_size);
+	strncpy(errbuf, "", errbuf_size);
 	return 0;
 }

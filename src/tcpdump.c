@@ -26,6 +26,8 @@ struct dump_info {
 #endif
 };
 
+static void NORETURN PRINTFLIKE(1, 2) error(FORMAT_STRING(const char *fmt), ...);
+
 int
 main(int argc, char *argv[])
 {
@@ -46,7 +48,7 @@ main(int argc, char *argv[])
 	char VFileLine[PATH_MAX + 1];
 	const char *username = NULL;
 
-	const char chroot_dir = NULL; // Only Linux
+	const char *chroot_dir = NULL; // Only Linux
 
 	char *ret = NULL;
 	char *end;
@@ -75,7 +77,7 @@ main(int argc, char *argv[])
 		error("%s", ebuf);
 
 	memset(ndo, 0, sizeof(*ndo));
-	ndo_set_function_pointers(ndo);
+	//ndo_set_function_pointers(ndo);
 
 	cnt = -1;
 	device = NULL;
@@ -94,23 +96,24 @@ main(int argc, char *argv[])
 	return 0;
 }
 
-static void NORETURN PRINTFLINE(1, 2)
+static void NORETURN PRINTFLIKE(1, 2)
 error(FORMAT_STRING(const char *fmt), ...)
 {
 	va_list ap;
 
 	(void) fprintf(stderr, "%s", program_name);
 
-	va_start(ap, fmt);
-	(void) vfprintf(stderr, fmt, ap);
-	va_end(ap);
+	//va_start(ap, fmt);
+	//(void) vfprintf(stderr, fmt, ap);
+	//va_end(ap);
 
-	if (*fmt) {
-		fmt += strlen(fmt);
+	//if (*fmt) {
+	//	fmt += strlen(fmt);
 
-		if (fmt[-1] != '\n')
-			(void) fputc('\n', sterr);
-	}
-	exit_tcpdump(S_ERR_HOST_PROGRAM);
+	//	if (fmt[-1] != '\n')
+	//		(void) fputc('\n', sterr);
+	//}
+	//exit_tcpdump(S_ERR_HOST_PROGRAM);
 	// NOT REACHED
+	exit(1);
 }

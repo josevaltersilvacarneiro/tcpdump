@@ -1,3 +1,5 @@
+//#include <stddef.h> // after deleting
+#include "funcattrs.h"
 
 typedef struct netdissect_options netdissect_options;
 
@@ -29,3 +31,5 @@ struct netdissect_options {
 	const char *program_name;	// Name of program using the library
 
 };
+
+extern int nd_init(char *errbuf, size_t errbuf_size);

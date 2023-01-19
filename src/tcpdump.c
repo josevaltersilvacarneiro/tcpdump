@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 
 #include <pcap/pcap.h>
 #include <setjmp.h>
 
 #include "netdissect.h"
+
+//#include "missing/getopt_long.h"
 
 #define PATH_SEPARATOR '/'
 
@@ -96,6 +99,13 @@ main(int argc, char *argv[])
 	return 0;
 }
 
+static void NORETURN
+exit_tcpdump(const int status)
+{
+	nd_cleanup();
+	exit(status);
+}
+
 static void NORETURN PRINTFLIKE(1, 2)
 error(FORMAT_STRING(const char *fmt), ...)
 {
@@ -103,17 +113,16 @@ error(FORMAT_STRING(const char *fmt), ...)
 
 	(void) fprintf(stderr, "%s", program_name);
 
-	//va_start(ap, fmt);
-	//(void) vfprintf(stderr, fmt, ap);
-	//va_end(ap);
+	va_start(ap, fmt);
+	(void) vfprintf(stderr, fmt, ap);
+	va_end(ap);
 
-	//if (*fmt) {
-	//	fmt += strlen(fmt);
+	if (*fmt) {
+		fmt += strlen(fmt);
 
-	//	if (fmt[-1] != '\n')
-	//		(void) fputc('\n', sterr);
-	//}
-	//exit_tcpdump(S_ERR_HOST_PROGRAM);
-	// NOT REACHED
-	exit(1);
+		if (fmt[-1] != '\n')
+			(void) fputc('\n', stderr);
+	}
+	exit_tcpdump(S_ERR_HOST_PROGRAM);
+	//NOT REACHED
 }

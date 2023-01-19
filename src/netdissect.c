@@ -9,6 +9,19 @@ nd_init(char *errbuf, size_t errbuf_size)
 	 * "unused argument" warnings at compile time.
 	 */
 
-	strncpy(errbuf, "", errbuf_size);
+	strlcpy(errbuf, "", errbuf_size);
 	return 0;
+}
+
+void
+nd_cleanup(void)
+{
+#ifdef USE_LIBSMI
+	/*
+	 * This appears, in libsmi 0.4.8, to do nothing if smiInit()
+	 * wasn't done or failed, so we call it unconditionally
+	 */
+
+	smiExit();
+#endif
 }

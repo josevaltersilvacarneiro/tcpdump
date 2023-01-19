@@ -1,5 +1,6 @@
-//#include <stddef.h> // after deleting
 #include <setjmp.h>
+
+#include "status-exit-codes.h"
 #include "funcattrs.h"
 
 typedef struct netdissect_options netdissect_options;
@@ -34,3 +35,6 @@ struct netdissect_options {
 };
 
 extern int nd_init(char *errbuf, size_t errbuf_size);
+extern size_t strlcpy(char *, const char *, size_t);
+
+extern void nd_cleanup(void);
